@@ -280,12 +280,12 @@ html, body {
 /* Letter shown on top of each mini-folder icon */
 .bookmark-icon.folder-icon .mini-folder .mini-folder-letter {
   position: absolute;
-  top: 1px;
   inset: 0;
+  top: 1px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 7px;
+  font-size: 8px;
   font-weight: 700;
   color: rgba(255,255,255,0.92);
   text-shadow: 0 1px 3px rgba(0,0,0,0.4);
