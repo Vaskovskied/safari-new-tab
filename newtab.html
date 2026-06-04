@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>New Tab</title>
+  <link rel="stylesheet" href="newtab.css" />
+</head>
+<body>
+  <div class="page">
+
+    <!-- Search Bar -->
+    <div class="search-section">
+      <form class="search-form" id="searchForm">
+        <div class="search-bar">
+          <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <input
+            type="text"
+            id="searchInput"
+            class="search-input"
+            placeholder="Search Google or type a URL"
+            autocomplete="off"
+            autofocus
+          />
+        </div>
+      </form>
+    </div>
+
+    <!-- Favorites / Bookmarks -->
+    <section class="section" id="favoritesSection">
+      <h2 class="section-title">Favorites</h2>
+      <div class="bookmarks-grid" id="bookmarksGrid">
+        <!-- Populated by JS -->
+      </div>
+    </section>
+
+    <!-- Recently Closed Tabs -->
+    <section class="section" id="recentSection">
+      <div class="section-header">
+        <h2 class="section-title">Recently Closed Tabs</h2>
+        <button class="clear-all-btn" id="clearAllBtn">
+          Clear All
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" fill="currentColor">
+            <path d="M6 0a6 6 0 1 0 0 12A6 6 0 0 0 6 0zm2.78 7.72a.75.75 0 1 1-1.06 1.06L6 7.06l-1.72 1.72a.75.75 0 0 1-1.06-1.06L4.94 6 3.22 4.28a.75.75 0 0 1 1.06-1.06L6 4.94l1.72-1.72a.75.75 0 0 1 1.06 1.06L7.06 6l1.72 1.72z"/>
+          </svg>
+        </button>
+      </div>
+      <div class="tabs-grid" id="tabsGrid">
+        <!-- Populated by JS -->
+      </div>
+      <p class="empty-state" id="tabsEmpty" style="display:none;">No recently closed tabs.</p>
+    </section>
+
+  </div>
+
+  <script src="newtab.js"></script>
+</body>
+</html>

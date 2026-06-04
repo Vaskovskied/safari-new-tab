@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "macOS New Tab",
+  "version": "1.0.0",
+  "description": "A macOS-style new tab page with bookmarks and recently closed tabs.",
+  "chrome_url_overrides": {
+    "newtab": "newtab.html"
+  },
+  "permissions": [
+    "bookmarks",
+    "sessions",
+    "tabs"
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}
