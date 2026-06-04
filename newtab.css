@@ -206,16 +206,38 @@ html, body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
-  gap: 2px;
-  padding: 6px;
+  gap: 3px;
+  padding: 7px;
   background: var(--surface);
+  position: relative;
+  border-radius: 22px;
+}
+
+/* Capital letter overlay on folder icon */
+.bookmark-icon.folder-icon .folder-letter-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.bookmark-icon.folder-icon .folder-letter-overlay span {
+  font-size: 26px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.92);
+  text-shadow: 0 1px 4px rgba(0,0,0,0.35);
+  letter-spacing: -0.5px;
+  line-height: 1;
 }
 
 .bookmark-icon.folder-icon .mini-favicon {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  border-radius: 4px;
+  border-radius: 5px;
 }
 
 .bookmark-icon.folder-icon .mini-letter {
@@ -228,7 +250,7 @@ html, body {
   font-weight: 600;
   color: #fff;
   background: var(--text-secondary);
-  border-radius: 4px;
+  border-radius: 5px;
 }
 
 /* Mini folder icon for sub-folder slots in collage */
@@ -239,7 +261,8 @@ html, body {
   align-items: center;
   justify-content: center;
   background: #E8E8ED;
-  border-radius: 4px;
+  border-radius: 5px;
+  position: relative;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -252,6 +275,23 @@ html, body {
   width: 65%;
   height: 65%;
   color: #8E8E93;
+}
+
+/* Letter shown on top of each mini-folder icon */
+.bookmark-icon.folder-icon .mini-folder .mini-folder-letter {
+  position: absolute;
+  top: 1px;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 7px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.92);
+  text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+  pointer-events: none;
+  z-index: 1;
+  line-height: 1;
 }
 
 /* Bookmark label */
@@ -434,4 +474,130 @@ html, body {
   display: flex;
   flex-wrap: wrap;
   gap: 16px 12px;
+}
+
+/* ============================================================
+   Settings button & panel
+   ============================================================ */
+
+.settings-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 8px;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s;
+}
+
+.settings-btn:hover {
+  background: var(--surface-hover);
+  color: var(--text-primary);
+}
+
+.settings-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.settings-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(0,0,0,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.15s ease;
+}
+
+.settings-panel {
+  background: var(--bg);
+  border-radius: 20px;
+  padding: 24px 24px 20px;
+  min-width: 280px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  animation: slideUp 0.2s ease;
+}
+
+.settings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.settings-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 4px 0;
+}
+
+.settings-label {
+  font-size: 15px;
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+/* iOS-style toggle switch */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 51px;
+  height: 31px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.toggle-track {
+  position: absolute;
+  inset: 0;
+  background: #E5E5EA;
+  border-radius: 999px;
+  transition: background 0.2s ease;
+}
+
+@media (prefers-color-scheme: dark) {
+  .toggle-track {
+    background: #3A3A3C;
+  }
+}
+
+.toggle-switch input:checked + .toggle-track {
+  background: #34C759;
+}
+
+.toggle-track::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 27px;
+  height: 27px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+  transition: transform 0.2s ease;
+}
+
+.toggle-switch input:checked + .toggle-track::after {
+  transform: translateX(20px);
 }

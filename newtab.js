@@ -116,6 +116,7 @@ function makeLetterIcon(title, url) {
 /**
  * Create a folder element with a 2×2 collage of child favicons.
  * If a child slot is itself a folder (no url), show a folder SVG icon instead.
+ * A capital letter overlay is shown on top of the collage.
  */
 function createFolderEl(node, onClick) {
   const wrapper = document.createElement('div');
@@ -154,10 +155,11 @@ function createFolderEl(node, onClick) {
         iconDiv.appendChild(makeMiniLetter(child.title, child.url));
       }
     } else {
-      // Sub-folder — show a folder SVG icon
-      iconDiv.appendChild(makeMiniFolder());
+      // Sub-folder — show a folder SVG icon with the folder's first letter
+      iconDiv.appendChild(makeMiniFolder(child.title));
     }
   });
+
 
   const label = document.createElement('span');
   label.className = 'bookmark-label';
@@ -179,14 +181,16 @@ function makeMiniLetter(title, url) {
 
 /**
  * Create a mini folder SVG icon for sub-folder slots in the collage.
+ * Shows the first letter of the sub-folder's title on top of the icon.
  */
-function makeMiniFolder() {
+function makeMiniFolder(title) {
   const div = document.createElement('div');
   div.className = 'mini-folder';
   div.innerHTML = `
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
       <path d="M10.5 3H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.17a2 2 0 0 1-1.42-.59L10.5 3z"/>
     </svg>
+    <span class="mini-folder-letter">${firstChar(title || 'F')}</span>
   `;
   return div;
 }
@@ -405,7 +409,80 @@ document.getElementById('clearAllBtn').addEventListener('click', () => {
   });
 });
 
+// ─── Settings ─────────────────────────────────────────────────
+
+const SETTINGS_KEY = 'newtabSettings';
+
+function getSettings() {
+  try {
+    return JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{}');
+  } catch {
+    return {};
+  }
+}
+
+function saveSettings(settings) {
+  localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+}
+
+function applySettings(settings) {
+  const searchSection = document.getElementById('searchSection');
+  const showSearch = settings.showSearch !== false; // default true
+  searchSection.style.display = showSearch ? '' : 'none';
+
+  const recentSection = document.getElementById('recentSection');
+  const showRecent = settings.showRecent !== false; // default true
+  recentSection.style.display = showRecent ? '' : 'none';
+
+  // Sync toggle states
+  const toggleSearch = document.getElementById('toggleSearch');
+  if (toggleSearch) toggleSearch.checked = showSearch;
+
+  const toggleRecent = document.getElementById('toggleRecent');
+  if (toggleRecent) toggleRecent.checked = showRecent;
+}
+
+// Settings button opens panel
+document.getElementById('settingsBtn').addEventListener('click', () => {
+  const overlay = document.getElementById('settingsOverlay');
+  overlay.style.display = 'flex';
+  // Sync toggle to current setting
+  const settings = getSettings();
+  document.getElementById('toggleSearch').checked = settings.showSearch !== false;
+});
+
+// Close settings panel
+document.getElementById('settingsClose').addEventListener('click', () => {
+  document.getElementById('settingsOverlay').style.display = 'none';
+});
+
+// Close on overlay click
+document.getElementById('settingsOverlay').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('settingsOverlay')) {
+    document.getElementById('settingsOverlay').style.display = 'none';
+  }
+});
+
+// Toggle search bar
+document.getElementById('toggleSearch').addEventListener('change', (e) => {
+  const settings = getSettings();
+  settings.showSearch = e.target.checked;
+  saveSettings(settings);
+  applySettings(settings);
+});
+
+// Toggle recently closed tabs
+document.getElementById('toggleRecent').addEventListener('change', (e) => {
+  const settings = getSettings();
+  settings.showRecent = e.target.checked;
+  saveSettings(settings);
+  applySettings(settings);
+});
+
 // ─── Init ─────────────────────────────────────────────────────
+
+// Apply saved settings on load
+applySettings(getSettings());
 
 loadBookmarks();
 loadRecentlyClosedTabs();
